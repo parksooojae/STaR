@@ -6,7 +6,7 @@ STaR is a way to improve base language models correctness against reasoning ques
 
 
 
-## Algorithm
+## how it works
 
 
 Procure a base dataset containing Question - Answer pair
