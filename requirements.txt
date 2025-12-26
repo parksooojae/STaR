@@ -7,3 +7,9 @@ accelerate
 safetensors
 wandb
 trl
+datasets
+python-dotenv
+vllm>=0.2.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+openai>=1.0.0

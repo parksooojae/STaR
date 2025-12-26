@@ -1,0 +1,108 @@
+### Example 1
+Q: Sarah felt bad about their odds. Billy disagreed with her. What did he think about their odds?
+Answer Choices:
+(a) first rate
+(b) adequate
+(c) good
+(d) propitious
+(e) sufficient
+A: The answer must be the opposite of Sarah's view since Billy disagreed. Sarah "felt bad," so Billy must think positively. 'Adequate' and 'sufficient' mean barely acceptable, not the opposite of bad. 'First rate' typically describes quality rather than odds. 'Good' is positive but generic. Only option D is a term specifically used to describe fortunate circumstances. Therefore, the answer is propitious (d).
+
+### Example 2
+Q: Where is an expressway unlikely to be found?
+Answer Choices:
+(a) ocean
+(b) map
+(c) canada
+(d) large city
+(e) country
+A: The answer must be a place where expressways typically don't exist. A map can depict an expressway. Canada and large cities have expressways. An ocean cannot have roads at all, but the question asks "unlikely" not "impossible." Rural areas (the "country") lack the population density that justifies expressway construction. Therefore, the answer is country (e).
+
+### Example 3
+Q: He was trying to eat more green, as in simple ingredients rather than what foods?
+Answer Choices:
+(a) ripe
+(b) greenweed
+(c) yellow
+(d) processed
+(e) cloy
+A: The answer must contrast with "green" and "simple ingredients." 'Ripe' and 'yellow' describe natural food states. 'Greenweed' is a plant. 'Cloy' means to sicken with excess. Only option D represents a category of food that is the opposite of simple, natural ingredients. Therefore, the answer is processed (d).
+
+### Example 4
+Q: What is the opposite of what will happen if you're lying constantly?
+Answer Choices:
+(a) feeling guilty
+(b) confusion
+(c) unhappiness
+(d) good things
+(e) rewards
+A: The answer must be the opposite of consequences from constant lying. Lying leads to negative outcomes like guilt, confusion, and unhappiness—so these are NOT the opposite. 'Rewards' implies earning something specific. Only option D represents the general opposite of negative consequences. Therefore, the answer is good things (d).
+
+### Example 5
+Q: Where could an electric razor be exposed to water?
+Answer Choices:
+(a) medicine cabinet
+(b) outside
+(c) k mart
+(d) bathroom
+(e) wal mart
+A: The answer must be a location where water exposure is likely. A medicine cabinet is dry storage. K Mart and Walmart are retail stores. 'Outside' has weather but isn't a typical razor location. Only option D is where razors are commonly used near sinks and showers. Therefore, the answer is bathroom (d).
+
+### Example 6
+Q: What are you doing when you're climbing a mountain?
+Answer Choices:
+(a) falling down
+(b) getting higher
+(c) vertigo
+(d) elevation
+(e) accomplishment
+A: The answer must describe an ongoing action during climbing. 'Falling down' is the opposite of climbing. 'Vertigo' is a sensation, not an action. 'Elevation' and 'accomplishment' are nouns, not actions. Only option B describes what physically occurs as you ascend. Therefore, the answer is getting higher (b).
+
+### Example 7
+Q: The person was cold and wet, where should he go?
+Answer Choices:
+(a) building
+(b) back home
+(c) hospital
+(d) demonstration
+(e) bus stop
+A: The answer must provide relief from cold and wet conditions. A demonstration and bus stop are outdoors. A hospital is for medical emergencies. 'Back home' assumes home is accessible. Only option A provides immediate indoor shelter regardless of where you are. Therefore, the answer is building (a).
+
+### Example 8
+Q: What might a gentleman own and go inside of?
+Answer Choices:
+(a) garage
+(b) big house
+(c) movie
+(d) restaurant
+(e) tuxedo
+A: The answer must be something a gentleman can both own and physically enter. A garage is auxiliary storage. A movie is entertainment, not a structure. A restaurant is a commercial business. A tuxedo is worn, not entered. Only option B is a residence that can be owned and inhabited. Therefore, the answer is big house (b).
+
+### Example 9
+Q: What could you be doing if you are relaxing and are awake but have your eyes closed?
+Answer Choices:
+(a) read book
+(b) listening to music
+(c) falling asleep
+(d) watching tv
+(e) reading
+A: The answer must be an activity done while relaxed, awake, and with eyes closed. Reading a book, reading, and watching TV all require open eyes. Falling asleep contradicts being awake. Only option B can be enjoyed while relaxed with eyes closed and still conscious. Therefore, the answer is listening to music (b).
+
+### Example 10
+Q: If a cottage is above the cloud line, where is it?
+Answer Choices:
+(a) village
+(b) rural area
+(c) mountains
+(d) fairy story
+(e) valley
+A: The answer must be a location where structures can exist above the cloud line. Villages, rural areas, and valleys are typically at lower elevations. A fairy story is fictional, not a physical location. Only option C reaches elevations above where clouds typically form. Therefore, the answer is mountains (c).
+
+### Now answer this
+Q: {{question}}
+Answer Choices: {{answer_choices}}
+Output:
+{
+  "rationale": "The answer must be [constraint from question]. [Reasoning connecting constraint to answer]. Therefore, the answer is [answer] ([letter])",
+  "answer": "<capital letter corresponding to answer choices>"
+}
