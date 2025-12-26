@@ -1,7 +1,6 @@
 # STaR: Self-taught Reasoner
-<<<<<<< HEAD
+
 paper replication attempt of "STaR: Bootstrapping Reasoning With Reasoning" (https://arxiv.org/abs/2203.14465). educational purposes only :p 
-=======
 
 ## Installation
 
