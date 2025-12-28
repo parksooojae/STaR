@@ -102,5 +102,5 @@ Q: {{question}}
 Question ID: {{question ID}}
 Answer Choices:
 {{answer_choices}}
-Hint: The answer is {{answer}}
+Hint: A hint word is {{answer}}
 A:
