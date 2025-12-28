@@ -98,13 +98,9 @@ Answer Choices:
 (e) valley
 A: The answer must be a location where structures can exist above the cloud line. Villages, rural areas, and valleys are typically at lower elevations. A fairy story is fictional, not a physical location. Only option C reaches elevations above where clouds typically form. Therefore, the answer is mountains (c).
 
-### Now answer this
 Q: {{question}}
-Answer Choices: {{answer_choices}}
-Hint: {{answer}}
-Output:
-{
-  "rationale": "The answer must be [constraint from question]. [Reasoning connecting constraint to answer]. Therefore, the answer is [answer] ([letter])",
-  "answer": "<capital letter corresponding to answer choices>",
-  "questionID": "<the given question ID>"
-}
+Question ID: {{question ID}}
+Answer Choices:
+{{answer_choices}}
+Hint: The answer is {{answer}}
+A:
