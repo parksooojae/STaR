@@ -99,18 +99,19 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         output_dir=output_dir,
         run_name=f"star-sft-M{iteration}",
         num_train_epochs=3,
-        per_device_train_batch_size=1,
-        gradient_accumulation_steps=8,
-        learning_rate=1e-6,
-        weight_decay=0,
-        warmup_steps=100,
-        optim="adam",
+        per_device_train_batch_size=16,    
+        gradient_accumulation_steps=2,      
+        learning_rate=2e-5,                  
+        weight_decay=0.01,
+        warmup_ratio=0.03,
+        optim="adamw_torch_fused",           
         logging_steps=10,
         save_strategy="epoch",
         save_total_limit=2,
-        fp16=torch.cuda.is_available(),
+        bf16=True,                            
         max_seq_length=1024,
-        packing=False,
+        packing=True,                        
+        gradient_checkpointing=True,       
         report_to="wandb",
     )
     
@@ -160,8 +161,8 @@ def main():
             "synth_iter": synth_iter,
             "target_model": f"M_{next_iter}",
             "num_train_epochs": 3,
-            "learning_rate": 1e-6,
-            "batch_size": 8,
+            "learning_rate": 2e-5,
+            "batch_size": 32,
         }
     )
     
