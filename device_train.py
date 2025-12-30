@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import tempfile
 
 import torch
@@ -102,8 +103,8 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         max_grad_norm=1.0,
         optim="adamw_torch_fused",
         logging_steps=10,
-        save_strategy="epoch",
-        save_total_limit=2,
+        log_level="error",
+        save_strategy="no",
         bf16=True,
         max_length=1024,
         packing=False,                        
@@ -146,6 +147,12 @@ def main():
     dataset = download_synth_dataset(synth_filename)
     model, tokenizer = load_base_model()
     next_iter = get_next_model_iteration()
+    
+    # Clear HF cache after loading - model is in GPU memory, free disk for final save
+    cache_dir = os.path.expanduser("~/.cache/huggingface/hub")
+    if os.path.exists(cache_dir):
+        shutil.rmtree(cache_dir)
+        print(f"Cleared {cache_dir} to free disk space")
     
     wandb.init(
         entity="chrispark",
