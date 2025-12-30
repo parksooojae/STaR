@@ -59,11 +59,8 @@ def get_next_model_iteration():
 
 
 def load_base_model():
-    """Load M_0 from repo."""
+    """Load M_0 from repo. Requires CUDA GPU."""
     load_dotenv()
-    
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-    device_map = "auto" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
     
     tokenizer = AutoTokenizer.from_pretrained(MODEL_REPO, subfolder=BASE_MODEL_FOLDER)
     tokenizer.pad_token = tokenizer.pad_token or tokenizer.eos_token
@@ -72,8 +69,8 @@ def load_base_model():
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_REPO,
         subfolder=BASE_MODEL_FOLDER,
-        torch_dtype=dtype,
-        device_map=device_map
+        torch_dtype=torch.bfloat16,
+        device_map="auto"
     )
     
     return model, tokenizer
@@ -90,8 +87,7 @@ Answer Choices:
 
 
 def run_sft(model, tokenizer, dataset, output_dir, iteration):
-    """Run SFT training."""
-    # Pre-process dataset to add "text" column
+    """Run SFT training. Requires CUDA GPU with bf16 support."""
     dataset = dataset.map(lambda x: {"text": format_example(x)})
     
     config = SFTConfig(
@@ -103,11 +99,12 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         learning_rate=2e-5,                  
         weight_decay=0.01,
         warmup_ratio=0.03,
-        optim="adamw_torch_fused",           
+        max_grad_norm=1.0,
+        optim="adamw_torch_fused",
         logging_steps=10,
         save_strategy="epoch",
         save_total_limit=2,
-        bf16=True,                            
+        bf16=True,
         max_length=1024,
         packing=False,                        
         gradient_checkpointing=True,       
