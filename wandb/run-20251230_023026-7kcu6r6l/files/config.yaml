@@ -1,0 +1,77 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            l25lvivoep8awdcyht3mfxwwzeefsly8:
+                codePath: device_train.py
+                codePathLocal: device_train.py
+                cpu_count: 96
+                cpu_count_logical: 192
+                cudaVersion: "12.4"
+                disk:
+                    /:
+                        total: "53687091200"
+                        used: "14462849024"
+                email: chris.park@berkeley.edu
+                executable: /usr/bin/python3
+                git:
+                    commit: 5dd741640f0e2db6fe48be0d408866f1804fc6f7
+                    remote: https://github.com/parksooojae/learning-STaR.git
+                gpu: NVIDIA H200
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-40b36fbc-3041-df29-a2fb-2c6c271ba999
+                host: 2f97ec177d02
+                memory:
+                    total: "2164181487616"
+                os: Linux-6.8.0-59-generic-x86_64-with-glibc2.35
+                program: /workspace/learning-STaR/device_train.py
+                python: CPython 3.11.10
+                root: /workspace/learning-STaR
+                startedAt: "2025-12-30T02:30:26.090142Z"
+                writerId: l25lvivoep8awdcyht3mfxwwzeefsly8
+        m: []
+        python_version: 3.11.10
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 84
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 84
+            "3":
+                - 13
+                - 16
+            "4": 3.11.10
+            "5": 0.23.1
+            "6": 4.57.3
+            "12": 0.23.1
+            "13": linux-x86_64
+base_model:
+    value: parksoojae/STaR/M_0
+batch_size:
+    value: 32
+learning_rate:
+    value: 2e-05
+num_train_epochs:
+    value: 3
+synth_file:
+    value: synth_1.jsonl
+synth_iter:
+    value: 1
+target_model:
+    value: M_1

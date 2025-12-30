@@ -109,7 +109,7 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         save_strategy="epoch",
         save_total_limit=2,
         bf16=True,                            
-        max_seq_length=1024,
+        max_length=1024,
         packing=True,                        
         gradient_checkpointing=True,       
         report_to="wandb",

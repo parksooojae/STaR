@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/learning-STaR/device_train.py", line 182, in <module>
+    main()
+  File "/workspace/learning-STaR/device_train.py", line 173, in main
+    run_sft(model, tokenizer, dataset, output_dir, next_iter)
+  File "/workspace/learning-STaR/device_train.py", line 98, in run_sft
+    config = SFTConfig(
+             ^^^^^^^^^^
+TypeError: SFTConfig.__init__() got an unexpected keyword argument 'max_seq_length'
