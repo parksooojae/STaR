@@ -6,7 +6,6 @@ import sys
 from typing import Dict, List, Optional
 
 import torch
-from datasets import Dataset
 from dotenv import load_dotenv
 from huggingface_hub import HfApi
 from tqdm import tqdm
@@ -189,36 +188,23 @@ def main(iteration: int = 0):
         f.write(f"{'Total in synthetic.jsonl':<25} {total_correct:>8} {total:>8} {total_correct/total:>11.2%}\n")
         f.write("-" * table_width + "\n")
 
-    # Push to HuggingFace Hub
-    # Naming scheme:
-    #   - "iteration-{n}" : versioned snapshot (iteration-0, iteration-1, ...)
-    #   - "latest"        : always points to most recent synthetic data
-    # To pull latest: load_dataset("parksoojae/learn-star", "latest")
-    # To pull specific: load_dataset("parksoojae/learn-star", "iteration-2")
-    with open(synthetic_path, "r") as f:
-        records = [json.loads(line) for line in f]
+    # Push to HuggingFace Hub as synth_{iteration}.jsonl
+    # Files: synth_1.jsonl, synth_2.jsonl, synth_3.jsonl, ...
+    api = HfApi()
+    repo_name = "parksoojae/learn-star"
     
-    if records:
-        columns = {key: [r[key] for r in records] for key in records[0].keys()}
-        dataset = Dataset.from_dict(columns)
-        
-        repo_name = "parksoojae/learn-star"
-        
-        # Push versioned config
-        dataset.push_to_hub(
-            repo_name,
-            config_name=f"iteration-{iteration}",
-            commit_message=f"Add synthetic data from iteration {iteration}"
+    # Check if file has content
+    if os.path.getsize(synthetic_path) > 0:
+        # Upload as synth_{iteration}.jsonl
+        api.upload_file(
+            path_or_fileobj=synthetic_path,
+            path_in_repo=f"synth_{iteration}.jsonl",
+            repo_id=repo_name,
+            repo_type="dataset",
+            commit_message=f"Add synth_{iteration}.jsonl from iteration {iteration}"
         )
         
-        # Push "latest" config (overwrites previous latest)
-        dataset.push_to_hub(
-            repo_name,
-            config_name="latest",
-            commit_message=f"Update latest to iteration {iteration}"
-        )
-        
-        print(f"Successfully pushed iteration-{iteration} and updated 'latest'")
+        print(f"Successfully pushed synth_{iteration}.jsonl to {repo_name}")
     else:
         print("Push failed: synthetic.jsonl is empty")
 
