@@ -161,32 +161,13 @@ def main(iteration: int = 0):
     print(f"Total in synthetic.jsonl: {total_correct:>5} / {total} ({total_correct/total:.2%})")
     print(f"{'='*50}")
     
-    # Save to results.txt in dataframe-like table format
-    results_path = os.path.join(script_dir, "results.txt")
+    # Append results to CSV for easy graphing
+    results_path = os.path.join(script_dir, "results.csv")
+    write_header = not os.path.exists(results_path)
     with open(results_path, "a") as f:
-        title = "Synthetic Data Generation Results"
-        header = f"{'Metric':<25} {'Count':>8} {'Total':>8} {'Percentage':>12}"
-        table_width = len(header)
-        
-        f.write(title + "\n")
-        f.write("=" * table_width + "\n\n")
-        
-        # Header
-        f.write(header + "\n")
-        f.write("-" * table_width + "\n")
-        
-        # Data rows
-        f.write(f"{'First-attempt correct':<25} {first_correct:>8} {total:>8} {first_correct/total:>11.2%}\n")
-        
-        if total > first_correct:
-            rationalized_total = total - first_correct
-            rationalized_pct = cond_correct / rationalized_total
-            f.write(f"{'Rationalized (saved)':<25} {cond_correct:>8} {rationalized_total:>8} {rationalized_pct:>11.2%}\n")
-        else:
-            f.write(f"{'Rationalized (saved)':<25} {cond_correct:>8} {0:>8} {'N/A':>12}\n")
-        
-        f.write(f"{'Total in synthetic.jsonl':<25} {total_correct:>8} {total:>8} {total_correct/total:>11.2%}\n")
-        f.write("-" * table_width + "\n")
+        if write_header:
+            f.write("iteration,first_correct,rationalized,total_correct,total_examples\n")
+        f.write(f"{iteration},{first_correct},{cond_correct},{total_correct},{total}\n")
 
     # Push to HuggingFace Hub as synth_{iteration}.jsonl
     # Files: synth_1.jsonl, synth_2.jsonl, synth_3.jsonl, ...
