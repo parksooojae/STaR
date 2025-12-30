@@ -91,9 +91,8 @@ Answer Choices:
 
 def run_sft(model, tokenizer, dataset, output_dir, iteration):
     """Run SFT training."""
-    def formatting_func(examples):
-        return [format_example(dict(zip(examples.keys(), vals))) 
-                for vals in zip(*examples.values())]
+    # Pre-process dataset to add "text" column
+    dataset = dataset.map(lambda x: {"text": format_example(x)})
     
     config = SFTConfig(
         output_dir=output_dir,
@@ -110,9 +109,10 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         save_total_limit=2,
         bf16=True,                            
         max_length=1024,
-        packing=True,                        
+        packing=False,                        
         gradient_checkpointing=True,       
         report_to="wandb",
+        dataset_text_field="text",
     )
     
     trainer = SFTTrainer(
@@ -120,7 +120,6 @@ def run_sft(model, tokenizer, dataset, output_dir, iteration):
         processing_class=tokenizer,
         train_dataset=dataset,
         args=config,
-        formatting_func=formatting_func,
     )
     
     trainer.train()
