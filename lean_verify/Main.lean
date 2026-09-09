@@ -26,7 +26,7 @@ theorem variance_iid_sample_mean
     (X : ι → Ω → ℝ) (k : ι)
     (hXk : MemLp (X k) 2 μ)
     (hident : ∀ i, IdentDistrib (X i) (X k) μ μ)
-    (hindep : Pairwise (IndepFun on X)) :
+    (hindep : Pairwise (fun i j ↦ IndepFun (X i) (X j) μ)) :
     Var[fun ω ↦ (∑ i, X i ω) / (Fintype.card ι : ℝ); μ] =
       Var[X k; μ] / (Fintype.card ι : ℝ) := by
   classical
