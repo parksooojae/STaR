@@ -6,6 +6,10 @@ on:
       - chatgpt-lean-verify-bessel
   workflow_dispatch:
 
+concurrency:
+  group: chatgpt-lean-verify
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
