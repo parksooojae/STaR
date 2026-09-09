@@ -20,7 +20,7 @@ jobs:
         run: |
           lake update
           lake exe cache get
-      - name: Compile Lean proof
+      - name: Typecheck Lean proof
         working-directory: lean_verify
         run: |
-          lake build verify
+          lake env lean Main.lean
