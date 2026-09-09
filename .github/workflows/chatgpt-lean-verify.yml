@@ -15,9 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Cache Lean toolchain and Mathlib
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            lean_verify/.lake
+          key: lean-4.33.1-mathlib-4.33.1-v1
       - name: Install elan
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          if [ ! -x "$HOME/.elan/bin/elan" ]; then
+            curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          fi
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Resolve Mathlib and fetch cache
         working-directory: lean_verify
