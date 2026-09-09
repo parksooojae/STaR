@@ -18,6 +18,39 @@ theorem whiteboard_core
   field_simp [hN0]
   ring
 
+/-- Pointwise identity behind the sample-variance calculation. -/
+theorem mean_sq_deviation_identity
+    {ι : Type*} [Fintype ι] [Nonempty ι] (x : ι → ℝ) :
+    (∑ i, (x i - (∑ j, x j) / (Fintype.card ι : ℝ)) ^ 2) /
+        (Fintype.card ι : ℝ) =
+      (∑ i, (x i) ^ 2) / (Fintype.card ι : ℝ) -
+        ((∑ j, x j) / (Fintype.card ι : ℝ)) ^ 2 := by
+  classical
+  have hn : (Fintype.card ι : ℝ) ≠ 0 := by
+    exact_mod_cast (Fintype.card_ne_zero : Fintype.card ι ≠ 0)
+  let a : ℝ := (∑ j, x j) / (Fintype.card ι : ℝ)
+  have hsum :
+      (∑ i, (x i - a) ^ 2) =
+        (∑ i, (x i) ^ 2) - (2 * a) * (∑ i, x i) +
+          (Fintype.card ι : ℝ) * a ^ 2 := by
+    calc
+      _ = ∑ i, ((x i) ^ 2 - (2 * a) * x i + a ^ 2) := by
+        apply Finset.sum_congr rfl
+        intro i hi
+        ring
+      _ = (∑ i, (x i) ^ 2) - (∑ i, (2 * a) * x i) + (∑ _i : ι, a ^ 2) := by
+        rw [Finset.sum_add_distrib, Finset.sum_sub_distrib]
+      _ = (∑ i, (x i) ^ 2) - (2 * a) * (∑ i, x i) +
+          (Fintype.card ι : ℝ) * a ^ 2 := by
+        rw [← Finset.mul_sum]
+        simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+  change (∑ i, (x i - a) ^ 2) / (Fintype.card ι : ℝ) =
+      (∑ i, (x i) ^ 2) / (Fintype.card ι : ℝ) - a ^ 2
+  rw [hsum]
+  dsimp [a]
+  field_simp [hn]
+  ring
+
 /-- For a finite nonempty i.i.d. family of square-integrable real random variables,
 the variance of the sample mean is the common variance divided by the sample size. -/
 theorem variance_iid_sample_mean
