@@ -1,6 +1,7 @@
 import Mathlib
 
-open scoped BigOperators
+open MeasureTheory ProbabilityTheory
+open scoped BigOperators ProbabilityTheory
 
 /-- Algebraic core of the whiteboard derivation.
 If E[X^2] = σ² + μ² and E[X̄^2] = σ²/N + μ²,
@@ -17,10 +18,47 @@ theorem whiteboard_core
   field_simp [hN0]
   ring
 
+/-- For a finite nonempty i.i.d. family of square-integrable real random variables,
+the variance of the sample mean is the common variance divided by the sample size. -/
+theorem variance_iid_sample_mean
+    {Ω ι : Type*} [MeasurableSpace Ω] [Fintype ι] [Nonempty ι]
+    (μ : Measure Ω) [IsProbabilityMeasure μ]
+    (X : ι → Ω → ℝ) (k : ι)
+    (hXk : MemLp (X k) 2 μ)
+    (hident : ∀ i, IdentDistrib (X i) (X k) μ μ)
+    (hindep : Pairwise (IndepFun on X)) :
+    Var[fun ω ↦ (∑ i, X i ω) / (Fintype.card ι : ℝ); μ] =
+      Var[X k; μ] / (Fintype.card ι : ℝ) := by
+  classical
+  have hcard : (Fintype.card ι : ℝ) ≠ 0 := by
+    exact_mod_cast (Fintype.card_ne_zero : Fintype.card ι ≠ 0)
+  have hXi : ∀ i, MemLp (X i) 2 μ := fun i ↦ (hident i).memLp_iff.2 hXk
+  have hsum :
+      Var[(∑ i, X i); μ] = ∑ i, Var[X i; μ] := by
+    simpa using
+      (IndepFun.variance_sum
+        (s := (Finset.univ : Finset ι)) (X := X)
+        (fun i _ ↦ hXi i)
+        (fun i _ j _ hij ↦ hindep hij))
+  have hvarsum :
+      (∑ i, Var[X i; μ]) = (Fintype.card ι : ℝ) * Var[X k; μ] := by
+    simp_rw [(hident _).variance_eq]
+    simp
+  have hscale :
+      Var[fun ω ↦ (∑ i, X i ω) / (Fintype.card ι : ℝ); μ] =
+        (1 / (Fintype.card ι : ℝ)) ^ 2 * Var[(∑ i, X i); μ] := by
+    rw [show (fun ω ↦ (∑ i, X i ω) / (Fintype.card ι : ℝ)) =
+        (fun ω ↦ (1 / (Fintype.card ι : ℝ)) * (∑ i, X i) ω) by
+      funext ω
+      simp [div_eq_mul_inv, mul_comm]]
+    rw [variance_const_mul]
+  rw [hscale, hsum, hvarsum]
+  field_simp [hcard]
+  ring
+
 #check ProbabilityTheory.variance_eq_sub
 #check ProbabilityTheory.variance_const_mul
 #check ProbabilityTheory.IndepFun.variance_sum
 
 example : (7 : ℝ) - 3 = 4 := by norm_num
-
 #eval 7 - 3
