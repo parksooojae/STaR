@@ -54,7 +54,6 @@ theorem variance_iid_sample_mean
     rw [variance_const_mul]
   rw [hscale, hsum, hvarsum]
   field_simp [hcard]
-  ring
 
 #check ProbabilityTheory.variance_eq_sub
 #check ProbabilityTheory.variance_const_mul
