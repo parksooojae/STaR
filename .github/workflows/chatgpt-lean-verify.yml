@@ -11,8 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Lean and build proof
-        uses: leanprover/lean-action@v1
-        with:
-          lake-package-directory: lean_verify
-          build-args: verify
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Resolve Mathlib and fetch cache
+        working-directory: lean_verify
+        run: |
+          lake update
+          lake exe cache get
+      - name: Compile Lean proof
+        working-directory: lean_verify
+        run: |
+          lake build verify
